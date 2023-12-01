@@ -1,0 +1,44 @@
+{
+  "name": "formie",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate:mysql",
+    "db:push": "drizzle-kit push:mysql"
+  },
+  "dependencies": {
+    "@auth/drizzle-adapter": "^0.3.9",
+    "@planetscale/database": "^1.11.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@t3-oss/env-nextjs": "^0.7.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "drizzle-orm": "^0.29.1",
+    "lucide-react": "^0.294.0",
+    "next": "14.0.3",
+    "next-auth": "^4.24.5",
+    "next-themes": "^0.2.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwind-merge": "^2.0.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "dotenv-flow": "^4.0.1",
+    "drizzle-kit": "^0.20.6",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
