@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import "@/app/globals.css";
 import NextAuthProvider from "@/components/next-auth-provider";
+import Header from "./header";
+import Footer from "./footer";
 
 export const fontSans = Inter({
   subsets: ["latin"],
@@ -25,18 +27,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          "flex min-h-screen flex-col bg-background py-10 font-sans antialiased",
+          fontSans.variable,
         )}
       >
         <NextAuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="dark"
             disableTransitionOnChange
           >
-            {children}
+            <Header />
+            <main className="flex-1 px-6">{children}</main>
+            <Footer />
           </ThemeProvider>
         </NextAuthProvider>
       </body>
