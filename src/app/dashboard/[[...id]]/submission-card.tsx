@@ -39,19 +39,19 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => {
             )}
           />
         </div>
-        <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-1 flex-col">
           <div className="grid grid-cols-2 gap-4">
             {fields.slice(0, 2).map(([key, value]) => (
               <SubmissionCardField key={key} label={key} value={value} />
             ))}
           </div>
-          {fields.length > 2 && (
-            <div className="grid grid-cols-2 gap-4" {...getCollapseProps()}>
+          <div {...getCollapseProps()}>
+            <div className="mt-4 grid grid-cols-2 gap-4">
               {fields.slice(2).map(([key, value]) => (
                 <SubmissionCardField key={key} label={key} value={value} />
               ))}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
