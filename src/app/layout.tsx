@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
-
-import "@/app/globals.css";
 import NextAuthProvider from "@/components/next-auth-provider";
 import Header from "./header";
 import Footer from "./footer";
+
+import "@/app/globals.css";
 
 export const fontSans = Inter({
   subsets: ["latin"],

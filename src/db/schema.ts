@@ -12,6 +12,7 @@ export const forms = mysqlTable("form", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
   // .references(() => users.id, { onDelete: "cascade" }),
+  redirectUrl: varchar("redirectUrl", { length: 255 }).notNull(),
 });
 
 export const submissions = mysqlTable("submissions", {
@@ -60,7 +61,7 @@ export const accounts = mysqlTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  })
+  }),
 );
 
 export const sessions = mysqlTable("session", {
@@ -81,5 +82,5 @@ export const verificationTokens = mysqlTable(
     compoundKey: primaryKey({
       columns: [vt.identifier, vt.token],
     }),
-  })
+  }),
 );
