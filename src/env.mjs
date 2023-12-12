@@ -19,6 +19,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_GITHUB_CLIENT_ID: z.string().min(1),
+    NEXT_PUBLIC_BASE_URL: z.string().min(1),
   },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
@@ -29,6 +30,7 @@ export const env = createEnv({
   runtimeEnv: {
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     NEXT_PUBLIC_GITHUB_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     DATABASE_HOST: process.env.DATABASE_HOST,
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,

@@ -9,10 +9,9 @@ import {
 } from "@/db/schema";
 import { getServerSession } from "next-auth";
 import RedirectUrlForm from "./redirect-url-form";
-import { deleteForm } from "@/actions/delete-form";
-import { updateFormRedirectUrl } from "@/actions/update-form-redirect-url";
 import { authOptions } from "@/lib/next-auth";
 import { DeleteFormButton } from "./delete-form.button";
+import { env } from "@/env.mjs";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -38,7 +37,7 @@ export default async function Dashboard({
       })
     : [];
 
-  const formUrl = `https://formie.dev/form/${form?.id}`;
+  const formUrl = `${env.NEXT_PUBLIC_BASE_URL}/form/${form?.id}`;
 
   return (
     <>
