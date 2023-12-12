@@ -13,13 +13,15 @@ export const forms = mysqlTable("form", {
   userId: varchar("userId", { length: 255 }).notNull(),
   // .references(() => users.id, { onDelete: "cascade" }),
   redirectUrl: varchar("redirectUrl", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
 });
 
 export const submissions = mysqlTable("submissions", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   formId: varchar("formId", { length: 255 }).notNull(),
   // .references(() => forms.id, { onDelete: "cascade" }),
-  fields: json("fields").notNull(),
+  fields: json("fields").$type<Record<string, any>>().notNull(),
+  date: timestamp("date", { mode: "date" }).notNull(),
 });
 
 /*

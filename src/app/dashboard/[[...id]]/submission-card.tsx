@@ -1,14 +1,15 @@
 "use client";
 
 import { useCollapse } from "react-collapsed";
-import { mockForms } from "./page";
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { submissions } from "@/db/schema";
+import DeleteFormButton from "./delete-submission-button";
 
 interface SubmissionCardProps {
-  submission: (typeof mockForms)[0]["submissions"][0];
+  submission: typeof submissions.$inferSelect;
 }
 
 const SubmissionCard = ({ submission }: SubmissionCardProps) => {
@@ -22,10 +23,10 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => {
   return (
     <div>
       <div className="mb-2 flex justify-between text-xs">
-        <div className="text-muted-foreground">
+        <div className="text-muted-foreground" suppressHydrationWarning>
           {dayjs(submission.date).format("DD/MM/YYYY HH:mm:ss")}
         </div>
-        <div className="text-red-400">Delete</div>
+        <DeleteFormButton submissionId={submission.id} />
       </div>
       <div
         className="flex space-x-4 rounded-md bg-zinc-700/50 p-4"

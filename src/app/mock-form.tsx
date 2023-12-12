@@ -103,7 +103,7 @@ const MockFormSubmission = ({ date, fields }: MockFormSubmissionProps) => {
       <div className="grid w-full grid-cols-2 overflow-hidden rounded-md border bg-zinc-800 p-4">
         {Object.entries(fields).map(([key, value]) => (
           <div key={key}>
-            <div className="text-muted-foreground">{key}</div>
+            <div className="text-sm text-muted-foreground">{key}</div>
             <div className="break-words text-sm">{value}</div>
           </div>
         ))}
