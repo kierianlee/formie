@@ -3,6 +3,7 @@ import MockForm from "./mock-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -21,13 +22,80 @@ export default async function Home() {
           The fastest way to receive form submissions on your website. Framework
           agnostic, it just works.
         </span>
-        <Code lang="html" theme="nord">
-          {`<form action="https://formie.dev/{form_id}" method="post">
+        <Tabs defaultValue="html" className="mt-4 w-full">
+          <TabsList>
+            <TabsTrigger value="html" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="langs/html.svg" className="w-4" alt="HTML" />
+              HTML
+            </TabsTrigger>
+            <TabsTrigger value="react" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="langs/react.svg" className="w-4" alt="React" />
+              React
+            </TabsTrigger>
+            <TabsTrigger value="svelte" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="langs/svelte.svg" className="w-4" alt="Svelte" />
+              Svelte
+            </TabsTrigger>
+            <TabsTrigger value="vue" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="langs/vue.svg" className="w-4" alt="Vue" />
+              Vue
+            </TabsTrigger>
+            <TabsTrigger value="angular" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="langs/angular.svg" className="w-4" alt="Angular" />
+              Angular
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="html">
+            <Code lang="html" theme="nord">
+              {`<form action="https://formie.dev/{form_id}" method="post">
   <input name="Email" id="email" type="email">
   <textarea name="Message" id="message">
   <button type="submit">Submit</button>
 </form>`}
-        </Code>
+            </Code>
+          </TabsContent>
+          <TabsContent value="react">
+            <Code lang="jsx" theme="nord">
+              {`<form action="https://formie.dev/{form_id}" method="post">
+  <input name="Email" id="email" type="email">
+  <textarea name="Message" id="message">
+  <button type="submit">Submit</button>
+</form>`}
+            </Code>
+          </TabsContent>
+          <TabsContent value="svelte">
+            <Code lang="svelte" theme="nord">
+              {`<form action="https://formie.dev/{form_id}" method="post">
+  <input name="Email" id="email" type="email">
+  <textarea name="Message" id="message">
+  <button type="submit">Submit</button>
+</form>`}
+            </Code>
+          </TabsContent>
+          <TabsContent value="vue">
+            <Code lang="vue" theme="nord">
+              {`<form action="https://formie.dev/{form_id}" method="post">
+  <input name="Email" id="email" type="email">
+  <textarea name="Message" id="message">
+  <button type="submit">Submit</button>
+</form>`}
+            </Code>
+          </TabsContent>
+          <TabsContent value="angular">
+            <Code lang="tsx" theme="nord">
+              {`<form action="https://formie.dev/{form_id}" method="post">
+  <input name="Email" id="email" type="email">
+  <textarea name="Message" id="message">
+  <button type="submit">Submit</button>
+</form>`}
+            </Code>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <hr className="my-8 border-dashed border-muted-foreground" />
