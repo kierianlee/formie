@@ -1,12 +1,14 @@
 import AuthButton from "@/components/auth-button";
 import Logo from "@/components/logo";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 
 const Header = () => {
   return (
     <header className="px-6">
       <div className="mx-auto w-full max-w-6xl">
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-4">
           <Link href="/">
             <Logo className="w-32" />
           </Link>
@@ -19,7 +21,20 @@ const Header = () => {
                 className="w-8 opacity-50 invert transition-all duration-200 hover:opacity-100"
               />
             </Link>
-            <AuthButton />
+            <div className="hidden md:block">
+              <AuthButton />
+            </div>
+            <div className="block md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <MenuIcon />
+                </SheetTrigger>
+                <SheetContent className="w-full">
+                  <hr className="my-4" />
+                  <AuthButton />
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

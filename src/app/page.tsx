@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="mx-auto w-full max-w-6xl py-10">
       <div>
-        <h1 className="mb-2 text-5xl font-medium">
+        <h1 className="mb-2 text-3xl lg:text-5xl font-medium">
           Instant forms with zero setup
         </h1>
         <span className="mb-4 text-muted-foreground">
@@ -23,33 +23,35 @@ export default async function Home() {
           agnostic, it just works.
         </span>
         <Tabs defaultValue="html" className="mt-4 w-full">
-          <TabsList>
-            <TabsTrigger value="html" className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="langs/html.svg" className="w-4" alt="HTML" />
-              HTML
-            </TabsTrigger>
-            <TabsTrigger value="react" className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="langs/react.svg" className="w-4" alt="React" />
-              React
-            </TabsTrigger>
-            <TabsTrigger value="svelte" className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="langs/svelte.svg" className="w-4" alt="Svelte" />
-              Svelte
-            </TabsTrigger>
-            <TabsTrigger value="vue" className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="langs/vue.svg" className="w-4" alt="Vue" />
-              Vue
-            </TabsTrigger>
-            <TabsTrigger value="angular" className="flex items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="langs/angular.svg" className="w-4" alt="Angular" />
-              Angular
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-auto">
+            <TabsList>
+              <TabsTrigger value="html" className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="langs/html.svg" className="w-4" alt="HTML" />
+                HTML
+              </TabsTrigger>
+              <TabsTrigger value="react" className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="langs/react.svg" className="w-4" alt="React" />
+                React
+              </TabsTrigger>
+              <TabsTrigger value="svelte" className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="langs/svelte.svg" className="w-4" alt="Svelte" />
+                Svelte
+              </TabsTrigger>
+              <TabsTrigger value="vue" className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="langs/vue.svg" className="w-4" alt="Vue" />
+                Vue
+              </TabsTrigger>
+              <TabsTrigger value="angular" className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="langs/angular.svg" className="w-4" alt="Angular" />
+                Angular
+              </TabsTrigger>
+            </TabsList>
+          </div>
           <TabsContent value="html">
             <Code lang="html" theme="nord">
               {`<form action="https://formie.dev/{form_id}" method="post">

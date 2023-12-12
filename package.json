@@ -15,6 +15,7 @@
     "@formkit/auto-animate": "^0.8.1",
     "@planetscale/database": "^1.11.0",
     "@radix-ui/react-collapsible": "^1.0.3",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
