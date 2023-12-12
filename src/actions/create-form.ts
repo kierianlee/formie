@@ -13,5 +13,5 @@ export async function createForm(session: Session) {
     userId: session.user.id,
   });
 
-  revalidatePath("/dashboard/[id]");
+  revalidatePath("/dashboard/[id]", "page");
 }

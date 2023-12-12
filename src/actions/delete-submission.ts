@@ -10,5 +10,5 @@ export async function deleteSubmission(submissionId: string) {
     .delete(submissionsTable)
     .where(eq(submissionsTable.id, submissionId));
 
-  revalidatePath("/dashboard/[id]", );
+  revalidatePath("/dashboard/[id]", "page");
 }

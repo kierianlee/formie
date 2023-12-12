@@ -20,5 +20,5 @@ export async function updateFormRedirectUrl(
       .where(eq(formsTable.id, formId));
   }
 
-  revalidatePath("/dashboard/[id]");
+  revalidatePath("/dashboard/[id]", "page");
 }
