@@ -2,10 +2,10 @@ import { CreateFormButton } from "./create-form-button";
 import { db } from "@/db";
 import { forms as formsTable } from "@/db/schema";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { eq } from "drizzle-orm";
 import SidebarItem from "./sidebar-item";
 import { createForm } from "@/actions/create-form";
+import { authOptions } from "@/lib/next-auth";
 
 interface DashboardLayoutSidebarProps {
   activeId: string | null;

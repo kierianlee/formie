@@ -8,10 +8,10 @@ import {
   submissions as submissionsTable,
 } from "@/db/schema";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import RedirectUrlForm from "./redirect-url-form";
 import { deleteForm } from "@/actions/delete-form";
 import { updateFormRedirectUrl } from "@/actions/update-form-redirect-url";
+import { authOptions } from "@/lib/next-auth";
 
 export default async function Dashboard({
   params: { id: idParam },

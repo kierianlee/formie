@@ -1,9 +1,9 @@
 import { Code } from "bright";
 import MockForm from "./mock-form";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { authOptions } from "@/lib/next-auth";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
