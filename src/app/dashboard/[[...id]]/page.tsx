@@ -12,6 +12,7 @@ import RedirectUrlForm from "./redirect-url-form";
 import { deleteForm } from "@/actions/delete-form";
 import { updateFormRedirectUrl } from "@/actions/update-form-redirect-url";
 import { authOptions } from "@/lib/next-auth";
+import { DeleteFormButton } from "./delete-form.button";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -39,12 +40,6 @@ export default async function Dashboard({
 
   const formUrl = `https://formie.dev/form/${form?.id}`;
 
-  const deleteFormWithId = deleteForm.bind(null, form?.id || "");
-  const updateFormRedirectUrlWithId = updateFormRedirectUrl.bind(
-    null,
-    form?.id || "",
-  );
-
   return (
     <>
       {!!form ? (
@@ -54,17 +49,13 @@ export default async function Dashboard({
               <div className="mb-3 text-xs uppercase">
                 {form?.name} settings:
               </div>
-              <form action={deleteFormWithId}>
-                <button type="submit" className="text-xs text-red-400">
-                  Delete form
-                </button>
-              </form>
+              <DeleteFormButton formId={form.id} />
             </div>
 
             <div className="flex flex-col space-y-4">
               <ClipboardInput inputValue={formUrl} value={formUrl} />
               <RedirectUrlForm
-                action={updateFormRedirectUrlWithId}
+                formId={form.id}
                 defaultValue={form.redirectUrl}
               />
             </div>

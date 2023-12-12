@@ -5,11 +5,7 @@ import { forms } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export async function renameForm(
-  formId: string,
-  prevState: { success: boolean },
-  formData: FormData,
-) {
+export async function renameForm(formId: string, formData: FormData) {
   const name = formData.get("name");
 
   const form = await db.query.forms.findFirst({ where: eq(forms.id, formId) });
@@ -26,6 +22,4 @@ export async function renameForm(
     .where(eq(forms.id, formId));
 
   revalidatePath("/dashboard/[id]", "page");
-
-  return { success: true };
 }

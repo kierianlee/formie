@@ -20,8 +20,6 @@ const DashboardLayoutSidebar = async ({
     return <></>;
   }
 
-  const createFormWithSession = createForm.bind(null, session);
-
   const forms = await db.query.forms.findMany({
     where: eq(formsTable.userId, session.user.id),
   });
@@ -36,9 +34,9 @@ const DashboardLayoutSidebar = async ({
           ))}
         </div>
       </div>
-      <form className="border-t p-6" action={createFormWithSession}>
-        <CreateFormButton />
-      </form>
+      <div className="border-t p-6">
+        <CreateFormButton session={session} />
+      </div>
     </>
   );
 };

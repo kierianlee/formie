@@ -17,7 +17,7 @@ const Header = () => {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 alt="GitHub"
-                src="github.svg"
+                src="/github.svg"
                 className="w-8 opacity-50 invert transition-all duration-200 hover:opacity-100"
               />
             </Link>

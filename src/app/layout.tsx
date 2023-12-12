@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import NextAuthProvider from "@/components/next-auth-provider";
 import Header from "./header";
 import Footer from "./footer";
+import { Toaster } from "react-hot-toast";
 
 import "@/app/globals.css";
 
@@ -40,6 +41,10 @@ export default function RootLayout({
             <Header />
             <main className="flex flex-1 flex-col px-6">{children}</main>
             <Footer />
+
+            <Toaster
+              toastOptions={{ className: "text-sm !bg-zinc-800 !text-white" }}
+            />
           </ThemeProvider>
         </NextAuthProvider>
       </body>

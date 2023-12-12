@@ -1,19 +1,38 @@
 "use client";
 
+import { updateFormRedirectUrl } from "@/actions/update-form-redirect-url";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { TailSpin } from "react-loader-spinner";
 
 interface RedirectUrlFormProps {
-  action: (formData: FormData) => Promise<void>;
+  formId: string;
   defaultValue?: string;
 }
 
-const RedirectUrlForm = ({ action, defaultValue }: RedirectUrlFormProps) => {
+const RedirectUrlForm = ({ formId, defaultValue }: RedirectUrlFormProps) => {
+  const updateFormRedirectUrlWithId = updateFormRedirectUrl.bind(null, formId);
+
   const [value, setValue] = useState(defaultValue);
+  const [submitting, setSubmitting] = useState(false);
 
   return (
-    <form action={action} className="flex gap-4">
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        try {
+          await updateFormRedirectUrlWithId(new FormData(e.currentTarget));
+          toast.success("Redirect URL updated");
+        } catch (err) {
+          toast.error("Couldn't update redirect URL");
+        }
+        setSubmitting(false);
+      }}
+      className="flex gap-4"
+    >
       <Input
         name="redirectUrl"
         placeholder="Set redirect URL"
@@ -21,7 +40,24 @@ const RedirectUrlForm = ({ action, defaultValue }: RedirectUrlFormProps) => {
         value={value}
         onChange={(e) => setValue(e.currentTarget.value)}
       />
-      <Button variant="secondary">Save</Button>
+      <Button
+        variant="secondary"
+        disabled={submitting}
+        aria-disabled={submitting}
+        type="submit"
+        className="flex items-center gap-4"
+      >
+        <span>Save</span>
+        {submitting && (
+          <TailSpin
+            height="16"
+            width="16"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+          />
+        )}
+      </Button>
     </form>
   );
 };
