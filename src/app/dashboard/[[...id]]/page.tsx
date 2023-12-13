@@ -42,6 +42,7 @@ export default async function Dashboard({
         where: eq(submissionsTable.formId, form.id),
         limit: take,
         offset: (page - 1) * take,
+        orderBy: (submissions, { desc }) => [desc(submissions.date)],
       })
     : [];
   const [{ count: submissionsCount }] = form
