@@ -1,6 +1,6 @@
-import ClipboardInput from "@/components/clipboard-input";
-import Logo from "@/components/logo";
-import SubmissionCard from "./submission-card";
+import ClipboardInput from "@/components/ui/clipboard-input";
+import Logo from "@/components/ui/logo";
+import SubmissionCard from "./_components/submission-card";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import {
@@ -8,9 +8,9 @@ import {
   submissions as submissionsTable,
 } from "@/db/schema";
 import { getServerSession } from "next-auth";
-import RedirectUrlForm from "./redirect-url-form";
+import RedirectUrlForm from "./_components/redirect-url-form";
 import { authOptions } from "@/lib/next-auth";
-import { DeleteFormButton } from "./delete-form.button";
+import { DeleteFormButton } from "./_components/delete-form.button";
 import { env } from "@/env.mjs";
 
 export default async function Dashboard({

@@ -1,5 +1,5 @@
-import AuthButton from "@/components/auth-button";
-import Logo from "@/components/logo";
+import AuthButton from "@/app/_components/auth-button";
+import Logo from "@/components/ui/logo";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";

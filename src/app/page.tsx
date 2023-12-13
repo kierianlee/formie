@@ -1,5 +1,5 @@
 import { Code } from "bright";
-import MockForm from "./mock-form";
+import MockForm from "./_components/mock-form";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

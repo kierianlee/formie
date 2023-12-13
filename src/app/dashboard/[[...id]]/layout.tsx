@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
-import DashboardLayoutSidebar from "./sidebar";
+import DashboardLayoutSidebar from "./_components/sidebar";
 import { authOptions } from "@/lib/next-auth";
 
 export default async function DashboardLayout({

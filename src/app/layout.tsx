@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import NextAuthProvider from "@/components/next-auth-provider";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./_components/header";
+import Footer from "./_components/footer";
 import { Toaster } from "react-hot-toast";
 
 import "@/app/globals.css";
