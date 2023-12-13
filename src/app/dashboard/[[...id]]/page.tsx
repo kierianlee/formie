@@ -2,7 +2,7 @@ import ClipboardInput from "@/components/ui/clipboard-input";
 import Logo from "@/components/ui/logo";
 import SubmissionCard from "./_components/submission-card";
 import { db } from "@/db";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import {
   forms as formsTable,
   submissions as submissionsTable,
@@ -12,17 +12,23 @@ import RedirectUrlForm from "./_components/redirect-url-form";
 import { authOptions } from "@/lib/next-auth";
 import { DeleteFormButton } from "./_components/delete-form.button";
 import { env } from "@/env.mjs";
+import PaginationNavigation from "@/components/pagination-navigation";
 
 export default async function Dashboard({
   params: { id: idParam },
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return <></>;
   }
+
+  const page = parseInt(searchParams.page?.toString() || "1");
+  const take = 10;
 
   const id = idParam ? idParam[0] : null;
 
@@ -34,8 +40,13 @@ export default async function Dashboard({
   const submissions = form
     ? await db.query.submissions.findMany({
         where: eq(submissionsTable.formId, form.id),
+        limit: take,
+        offset: (page - 1) * take,
       })
     : [];
+  const [{ count: submissionsCount }] = form
+    ? await db.select({ count: count() }).from(submissionsTable)
+    : [{ count: 0 }];
 
   const formUrl = `${env.NEXT_PUBLIC_BASE_URL}/form/${form?.id}`;
 
@@ -68,6 +79,13 @@ export default async function Dashboard({
                   <SubmissionCard submission={s} />
                 </div>
               ))}
+            </div>
+            <div className="mt-6 flex justify-center">
+              <PaginationNavigation
+                href={`/dashboard/${form.id}`}
+                totalPages={Math.ceil(submissionsCount / take)}
+                currentPage={page}
+              />
             </div>
           </div>
         </>
