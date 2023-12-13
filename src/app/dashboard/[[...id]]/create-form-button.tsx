@@ -2,17 +2,11 @@
 
 import { createForm } from "@/actions/create-form";
 import { Button } from "@/components/ui/button";
-import { Session } from "next-auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { TailSpin } from "react-loader-spinner";
 
-interface CreateFormButtonProps {
-  session: Session;
-}
-
-export function CreateFormButton({ session }: CreateFormButtonProps) {
-  const createFormWithSession = createForm.bind(null, session);
+export function CreateFormButton() {
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -25,7 +19,7 @@ export function CreateFormButton({ session }: CreateFormButtonProps) {
       onClick={async () => {
         setSubmitting(true);
         try {
-          await createFormWithSession();
+          await createForm();
           toast.success("Form created");
         } catch (err) {
           toast.error("Couldn't create form");

@@ -4,7 +4,6 @@ import { forms as formsTable } from "@/db/schema";
 import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
 import SidebarItem from "./sidebar-item";
-import { createForm } from "@/actions/create-form";
 import { authOptions } from "@/lib/next-auth";
 
 interface DashboardLayoutSidebarProps {
@@ -35,7 +34,7 @@ const DashboardLayoutSidebar = async ({
         </div>
       </div>
       <div className="border-t p-6">
-        <CreateFormButton session={session} />
+        <CreateFormButton />
       </div>
     </>
   );
