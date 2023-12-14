@@ -4,7 +4,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Email from "vercel-email";
 
 export const runtime = "edge";
@@ -22,14 +22,14 @@ export async function POST(
     where: eq(forms.id, id),
   });
   if (!form) {
-    return redirect("/400");
+    return NextResponse.json({ error: "Form not found" }, { status: 400 });
   }
 
   const user = await db.query.users.findFirst({
     where: eq(users.id, form.userId),
   });
   if (!user) {
-    return redirect("/400");
+    return NextResponse.json({ error: "User not found" }, { status: 400 });
   }
 
   try {
@@ -47,7 +47,9 @@ export async function POST(
       text: "Your form has received a new submission. Check it out at https://formie.dev.",
     });
   } catch (error) {
-    return redirect("/400");
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
   }
 
   if (form.redirectUrl) {
