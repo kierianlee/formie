@@ -77,7 +77,8 @@ export const NextButton = ({
       className={clsx(
         className,
         as.props.className,
-        pagination.currentPage === pagination.pages.length &&
+        (pagination.currentPage === pagination.pages.length ||
+          pagination.pages.length === 0) &&
           "pointer-events-none cursor-not-allowed",
       )}
     >
