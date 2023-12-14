@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "flex min-h-screen flex-col bg-background py-10 font-sans antialiased",
+          "flex min-h-screen flex-col bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >

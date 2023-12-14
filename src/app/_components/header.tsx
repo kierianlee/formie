@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="px-6">
+    <header className="px-6 pt-10">
       <div className="mx-auto w-full max-w-6xl">
         <div className="flex justify-between gap-4">
           <Link href="/">
