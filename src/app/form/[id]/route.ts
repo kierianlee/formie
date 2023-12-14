@@ -5,7 +5,6 @@ import { getIPAddress } from "@/lib/server-actions";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
-import Email from "vercel-email";
 
 export const runtime = "edge";
 
@@ -40,11 +39,34 @@ export async function POST(
       fields: entries,
     });
 
-    await Email.send({
-      to: { email: user.email },
-      from: { email: "noreply@formie.dev", name: "formie" },
-      subject: `${form.name} - New Submission`,
-      text: "Your form has received a new submission. Check it out at https://formie.dev.",
+    await fetch("https://api.mailchannels.net/tx/v1/send", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [
+              {
+                email: user.email,
+                name: user.name,
+              },
+            ],
+          },
+        ],
+        from: {
+          email: "noreply@formie.dev",
+          name: "formie",
+        },
+        subject: `New submission for ${form.name}`,
+        content: [
+          {
+            type: "text/plain",
+            value: `New submission for ${form.name}. Check it out at https://formie.dev.`,
+          },
+        ],
+      }),
     });
   } catch (error) {
     if (error instanceof Error) {
