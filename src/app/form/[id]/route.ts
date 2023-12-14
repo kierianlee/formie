@@ -1,12 +1,17 @@
 import { db } from "@/db";
 import { forms, submissions } from "@/db/schema";
+import { rateLimit } from "@/lib/rate-limit";
+import { getIPAddress } from "@/lib/server-actions";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params: { id } }: { params: { id: string } },
 ) {
+  await rateLimit((await getIPAddress()) ?? "anonymous");
+
   const formData = await req.formData();
 
   const entries = Object.fromEntries(formData.entries());
