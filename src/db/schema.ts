@@ -10,16 +10,18 @@ import { AdapterAccount } from "next-auth/adapters";
 
 export const forms = mysqlTable("form", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  // .references(() => users.id, { onDelete: "cascade" }),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   redirectUrl: varchar("redirectUrl", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
 });
 
 export const submissions = mysqlTable("submissions", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  formId: varchar("formId", { length: 255 }).notNull(),
-  // .references(() => forms.id, { onDelete: "cascade" }),
+  formId: varchar("formId", { length: 255 })
+    .notNull()
+    .references(() => forms.id, { onDelete: "cascade" }),
   fields: json("fields").$type<Record<string, any>>().notNull(),
   date: timestamp("date", { mode: "date" }).notNull(),
 });
@@ -42,8 +44,9 @@ export const users = mysqlTable("user", {
 export const accounts = mysqlTable(
   "account",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
-    // .references(() => users.id, { onDelete: "cascade" }),
+    userId: varchar("userId", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
     type: varchar("type", { length: 255 })
       .$type<AdapterAccount["type"]>()
       .notNull(),
@@ -68,8 +71,9 @@ export const accounts = mysqlTable(
 
 export const sessions = mysqlTable("session", {
   sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  // .references(() => users.id, { onDelete: "cascade" }),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 

@@ -10,12 +10,15 @@ CREATE TABLE `account` (
 	`scope` varchar(255),
 	`id_token` varchar(2048),
 	`session_state` varchar(255),
+	`refresh_token_expires_in` int,
 	CONSTRAINT `account_provider_providerAccountId_pk` PRIMARY KEY(`provider`,`providerAccountId`)
 );
 --> statement-breakpoint
 CREATE TABLE `form` (
 	`id` varchar(255) NOT NULL,
 	`userId` varchar(255) NOT NULL,
+	`redirectUrl` varchar(255) NOT NULL,
+	`name` varchar(255) NOT NULL,
 	CONSTRAINT `form_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -30,6 +33,7 @@ CREATE TABLE `submissions` (
 	`id` varchar(255) NOT NULL,
 	`formId` varchar(255) NOT NULL,
 	`fields` json NOT NULL,
+	`date` timestamp NOT NULL,
 	CONSTRAINT `submissions_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
