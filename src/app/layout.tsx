@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 import "@/app/globals.css";
 
-export const fontSans = Inter({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });

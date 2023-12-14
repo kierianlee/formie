@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   int,
   timestamp,
@@ -25,6 +26,9 @@ export const submissions = mysqlTable("submissions", {
   fields: json("fields").$type<Record<string, any>>().notNull(),
   date: timestamp("date", { mode: "date" }).notNull(),
 });
+export const submissionsRelations = relations(submissions, ({ one }) => ({
+  form: one(forms, { fields: [submissions.formId], references: [forms.id] }),
+}));
 
 /*
   NextAuth uses the below tables:
@@ -40,6 +44,9 @@ export const users = mysqlTable("user", {
   }).defaultNow(),
   image: varchar("image", { length: 255 }),
 });
+export const usersRelations = relations(users, ({ many, one }) => ({
+  posts: many(forms),
+}));
 
 export const accounts = mysqlTable(
   "account",
@@ -62,12 +69,15 @@ export const accounts = mysqlTable(
 
     refresh_token_expires_in: int("refresh_token_expires_in"),
   },
-  (account) => ({
+  account => ({
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
   }),
 );
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, { fields: [accounts.userId], references: [users.id] }),
+}));
 
 export const sessions = mysqlTable("session", {
   sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
@@ -84,7 +94,7 @@ export const verificationTokens = mysqlTable(
     token: varchar("token", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (vt) => ({
+  vt => ({
     compoundKey: primaryKey({
       columns: [vt.identifier, vt.token],
     }),
