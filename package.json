@@ -10,13 +10,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:push": "drizzle-kit push:mysql"
+    "db:generate": "drizzle-kit generate:pg",
+    "db:push": "drizzle-kit push:pg"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.9",
     "@formkit/auto-animate": "^0.8.1",
-    "@planetscale/database": "^1.11.0",
+    "@neondatabase/serverless": "^0.6.0",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",

@@ -1,12 +1,12 @@
 {
   "version": "5",
-  "dialect": "mysql",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1702488113886,
-      "tag": "0000_aberrant_abomination",
+      "when": 1702616170121,
+      "tag": "0000_narrow_justin_hammer",
       "breakpoints": true
     }
   ]
