@@ -2,7 +2,7 @@ import ClipboardInput from "@/components/ui/clipboard-input";
 import Logo from "@/components/ui/logo";
 import SubmissionCard from "./_components/submission-card";
 import { db } from "@/db";
-import { count, eq } from "drizzle-orm";
+import { asc, count, desc, eq, sql } from "drizzle-orm";
 import {
   forms as formsTable,
   submissions as submissionsTable,
@@ -13,6 +13,8 @@ import { authOptions } from "@/lib/next-auth";
 import { DeleteFormButton } from "./_components/delete-form.button";
 import { env } from "@/env.mjs";
 import PaginationNavigation from "@/components/pagination-navigation";
+import SortButton from "./_components/sort-button";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -30,6 +32,12 @@ export default async function Dashboard({
   const page = parseInt(searchParams.page?.toString() || "1");
   const take = 10;
 
+  const sortDir = (searchParams.sortDir as string) || "desc";
+  if (sortDir !== "asc" && sortDir !== "desc") {
+    return redirect("/dashboard");
+  }
+  const sortField = (searchParams.sortField as string) || "Date";
+
   const id = idParam ? idParam[0] : null;
 
   const form = id
@@ -38,16 +46,40 @@ export default async function Dashboard({
       })
     : null;
   const submissions = form
-    ? await db.query.submissions.findMany({
-        where: eq(submissionsTable.formId, form.id),
-        limit: take,
-        offset: (page - 1) * take,
-        orderBy: (submissions, { desc }) => [desc(submissions.date)],
-      })
+    ? await db
+        .select()
+        .from(submissionsTable)
+        .where(eq(submissionsTable.formId, form.id))
+        .orderBy(
+          sortField === "Date"
+            ? sortDir === "asc"
+              ? asc(submissionsTable.date)
+              : desc(submissionsTable.date)
+            : sortDir === "asc"
+              ? sql`fields ->> ${sortField} asc nulls first`
+              : sql`fields ->> ${sortField} desc nulls first`,
+        )
+        .limit(take)
+        .offset((page - 1) * take)
     : [];
   const [{ count: submissionsCount }] = form
     ? await db.select({ count: count() }).from(submissionsTable)
     : [{ count: 0 }];
+  const submissionKeys = form
+    ? ((await db
+        .execute(
+          sql`
+          SELECT
+            JSON_OBJECT_KEYS(fields) AS KEY
+          FROM
+            ${submissionsTable}
+          WHERE
+            ${submissionsTable.formId} = ${form.id}
+          GROUP BY
+            KEY;`,
+        )
+        .then(res => res.rows)) as { key: string }[])
+    : [];
 
   const formUrl = `${env.NEXT_PUBLIC_BASE_URL}/form/${form?.id}`;
 
@@ -73,9 +105,16 @@ export default async function Dashboard({
           </div>
 
           <div className="rounded-md border bg-zinc-800/40 p-6">
+            <div className="mb-4">
+              <SortButton
+                sort={{ direction: sortDir, field: sortField }}
+                href=""
+                options={submissionKeys.map(item => item.key)}
+              />
+            </div>
             <div className="mb-3 text-xs uppercase">Submissions:</div>
             <div className="flex flex-col space-y-5">
-              {submissions.map((s) => (
+              {submissions.map(s => (
                 <div key={s.id}>
                   <SubmissionCard submission={s} />
                 </div>
@@ -83,7 +122,6 @@ export default async function Dashboard({
             </div>
             <div className="mt-6 flex justify-center">
               <PaginationNavigation
-                href={`/dashboard/${form.id}`}
                 totalPages={Math.ceil(submissionsCount / take)}
                 currentPage={page}
               />
