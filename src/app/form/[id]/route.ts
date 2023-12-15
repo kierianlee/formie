@@ -31,6 +31,22 @@ export async function POST(
     return NextResponse.json({ error: "User not found" }, { status: 400 });
   }
 
+  if (form.recaptchaEnabled && form.recaptchaSecret) {
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${form.recaptchaSecret}&response=${entries["g-recaptcha-response"]}`,
+      {
+        method: "POST",
+      },
+    );
+    const json = await response.json();
+    if (!json.success) {
+      return NextResponse.json(
+        { error: "reCAPTCHA verification failed" },
+        { status: 400 },
+      );
+    }
+  }
+
   try {
     await db.insert(submissions).values({
       id: crypto.randomUUID(),

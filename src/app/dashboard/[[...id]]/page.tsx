@@ -18,6 +18,7 @@ import { redirect } from "next/navigation";
 import { FilterMenu } from "./_components/filter-menu";
 import { InputType, QueryType } from "@/components/filter/filter-consts";
 import FilterBadge from "./_components/filter-badge";
+import RecaptchaForm from "./_components/recaptcha-form";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -117,6 +118,11 @@ export default async function Dashboard({
               <RedirectUrlForm
                 formId={form.id}
                 defaultValue={form.redirectUrl}
+              />
+              <RecaptchaForm
+                formId={form.id}
+                defaultEnabled={form.recaptchaEnabled}
+                defaultValue={form.recaptchaSecret || ""}
               />
             </div>
           </div>

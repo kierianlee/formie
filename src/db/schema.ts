@@ -6,6 +6,7 @@ import {
   primaryKey,
   text,
   json,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { AdapterAccount } from "next-auth/adapters";
 
@@ -15,6 +16,8 @@ export const forms = pgTable("form", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   redirectUrl: text("redirectUrl").notNull(),
+  recaptchaSecret: text("recaptchaSecret"),
+  recaptchaEnabled: boolean("recaptchaEnabled").notNull().default(false),
   name: text("name").notNull(),
 });
 
