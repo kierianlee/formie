@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,14 +24,18 @@ const SortButton = ({ sort, options }: SortButtonProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-1 text-xs">
+        <Button
+          size="sm"
+          variant="outline"
+          className="flex items-center gap-2 px-4 py-1 text-xs"
+        >
           {sort.direction === "asc" ? (
             <SortAsc className="w-4" />
           ) : (
             <SortDesc className="w-4" />
           )}
           <span>{sort.field}</span>
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <CustomDropdownMenuItem

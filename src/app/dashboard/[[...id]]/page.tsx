@@ -2,7 +2,7 @@ import ClipboardInput from "@/components/ui/clipboard-input";
 import Logo from "@/components/ui/logo";
 import SubmissionCard from "./_components/submission-card";
 import { db } from "@/db";
-import { asc, count, desc, eq, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, sql } from "drizzle-orm";
 import {
   forms as formsTable,
   submissions as submissionsTable,
@@ -15,6 +15,9 @@ import { env } from "@/env.mjs";
 import PaginationNavigation from "@/components/pagination-navigation";
 import SortButton from "./_components/sort-button";
 import { redirect } from "next/navigation";
+import { FilterMenu } from "./_components/filter-menu";
+import { InputType, QueryType } from "@/components/filter/filter-consts";
+import FilterBadge from "./_components/filter-badge";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -24,7 +27,6 @@ export default async function Dashboard({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getServerSession(authOptions);
-
   if (!session) {
     return <></>;
   }
@@ -38,6 +40,10 @@ export default async function Dashboard({
   }
   const sortField = (searchParams.sortField as string) || "Date";
 
+  const filterField = searchParams.filterField as string;
+  const filterValue = searchParams.filterValue as string;
+  const filterType = searchParams.filterType as string;
+
   const id = idParam ? idParam[0] : null;
 
   const form = id
@@ -49,7 +55,18 @@ export default async function Dashboard({
     ? await db
         .select()
         .from(submissionsTable)
-        .where(eq(submissionsTable.formId, form.id))
+        .where(
+          and(
+            eq(submissionsTable.formId, form.id),
+            ...(filterField && filterType && filterValue
+              ? [
+                  filterType === QueryType.CONTAINS
+                    ? sql`fields ->> ${filterField} ilike ${`%${filterValue}%`}`
+                    : sql`fields ->> ${filterField} = ${filterValue}`,
+                ]
+              : []),
+          ),
+        )
         .orderBy(
           sortField === "Date"
             ? sortDir === "asc"
@@ -105,13 +122,31 @@ export default async function Dashboard({
           </div>
 
           <div className="rounded-md border bg-zinc-800/40 p-6">
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-4">
               <SortButton
                 sort={{ direction: sortDir, field: sortField }}
                 href=""
                 options={submissionKeys.map(item => item.key)}
               />
+              <FilterMenu
+                options={submissionKeys.map(item => ({
+                  label: item.key,
+                  accessor: item.key,
+                  input: InputType.TEXT,
+                  queries: [QueryType.CONTAINS, QueryType.EQUALS],
+                }))}
+              />
             </div>
+            {!!filterField && !!filterType && !!filterValue && (
+              <div>
+                <FilterBadge
+                  filterField={filterField}
+                  filterType={filterType}
+                  filterValue={filterValue}
+                />
+              </div>
+            )}
+            <hr className="my-4" />
             <div className="mb-3 text-xs uppercase">Submissions:</div>
             <div className="flex flex-col space-y-5">
               {submissions.map(s => (
