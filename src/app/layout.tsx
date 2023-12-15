@@ -15,7 +15,7 @@ const fontSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Formie",
+  title: "formie",
   description: "Forms without the hassle.",
 };
 

@@ -48,7 +48,7 @@ const PrivacyPage = () => {
           <p>
             <strong>Company</strong> (referred to as either &quot;the
             Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in
-            this Agreement) refers to Formie.
+            this Agreement) refers to formie.
           </p>
         </li>
         <li>
@@ -107,7 +107,7 @@ const PrivacyPage = () => {
         </li>
         <li>
           <p>
-            <strong>Website</strong> refers to Formie, accessible from{" "}
+            <strong>Website</strong> refers to formie, accessible from{" "}
             <a
               href="https://formie.dev"
               rel="external nofollow noopener"
