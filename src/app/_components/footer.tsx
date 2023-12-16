@@ -6,7 +6,7 @@ const Footer = () => {
       <hr />
       <footer className="px-6 py-6">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="flex justify-between">
+          <div className="flex flex-col lg:flex-row gap-2 lg:justify-between">
             <div />
             <div className="items-center text-center text-sm text-muted-foreground">
               Created with ❤️ by{" "}

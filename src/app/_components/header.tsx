@@ -1,8 +1,7 @@
 import AuthButton from "@/app/_components/auth-button";
 import Logo from "@/components/ui/logo";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import HeaderSheet from "./header-sheet";
 
 const Header = () => {
   return (
@@ -25,15 +24,7 @@ const Header = () => {
               <AuthButton />
             </div>
             <div className="block md:hidden">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <MenuIcon />
-                </SheetTrigger>
-                <SheetContent className="w-full">
-                  <hr className="my-4" />
-                  <AuthButton />
-                </SheetContent>
-              </Sheet>
+              <HeaderSheet />
             </div>
           </div>
         </div>
