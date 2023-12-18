@@ -23,9 +23,9 @@ export function DeleteFormButton({ formId }: DeleteFormButtonProps) {
         setSubmitting(true);
         try {
           await deleteFormWithId();
-          toast.success("Form created");
+          toast.success("Form deleted");
         } catch (err) {
-          toast.error("Couldn't create form");
+          toast.error("Couldn't delete form");
         }
         setSubmitting(false);
       }}

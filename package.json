@@ -26,6 +26,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^5.13.4",
+    "@tanstack/react-table": "^8.10.7",
     "@upstash/ratelimit": "^1.0.0",
     "@upstash/redis": "^1.25.2",
     "bright": "^0.8.4",
@@ -46,6 +47,7 @@
     "react-select": "^5.8.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "use-async-effect": "^2.2.7",
     "zod": "^3.22.4"
   },
   "devDependencies": {

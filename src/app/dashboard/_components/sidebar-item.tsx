@@ -5,21 +5,28 @@ import { Input } from "@/components/ui/input";
 import { forms } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { TailSpin } from "react-loader-spinner";
 
 interface SidebarItemProps {
   form: typeof forms.$inferSelect;
-  activeId: string | null;
 }
 
-const SidebarItem = ({ form, activeId }: SidebarItemProps) => {
+const SidebarItem = ({ form }: SidebarItemProps) => {
+  const pathname = usePathname();
   const renameFormWithId = renameForm.bind(null, form.id);
 
   const [editable, setEditable] = useState(false);
   const [inputValue, setInputValue] = useState(form.name);
   const [submitting, setSubmitting] = useState(false);
+
+  const activeId = useMemo(() => {
+    const split = pathname.split("/");
+
+    return split[split.length - 1];
+  }, [pathname]);
 
   return !editable ? (
     <Link
@@ -48,7 +55,7 @@ const SidebarItem = ({ form, activeId }: SidebarItemProps) => {
               "text-xs text-zinc-300 transition-all duration-300 group-hover:opacity-100",
               activeId === form.id ? "opacity-70" : "opacity-0",
             )}
-            onClick={(e) => {
+            onClick={e => {
               e.preventDefault();
               e.stopPropagation();
 
@@ -70,7 +77,7 @@ const SidebarItem = ({ form, activeId }: SidebarItemProps) => {
     </Link>
   ) : (
     <form
-      onSubmit={async (e) => {
+      onSubmit={async e => {
         e.preventDefault();
 
         setEditable(false);
@@ -87,7 +94,7 @@ const SidebarItem = ({ form, activeId }: SidebarItemProps) => {
       <Input
         name="name"
         value={inputValue}
-        onChange={(e) => setInputValue(e.currentTarget.value)}
+        onChange={e => setInputValue(e.currentTarget.value)}
       />
     </form>
   );

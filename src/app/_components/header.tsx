@@ -2,8 +2,13 @@ import AuthButton from "@/app/_components/auth-button";
 import Logo from "@/components/ui/logo";
 import Link from "next/link";
 import HeaderSheet from "./header-sheet";
+import HeaderMenu from "./header-menu";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/next-auth";
 
-const Header = () => {
+const Header = async () => {
+  const session = await getServerSession(authOptions);
+
   return (
     <header className="px-6 pt-10">
       <div className="mx-auto w-full max-w-6xl">
@@ -21,7 +26,7 @@ const Header = () => {
               />
             </Link>
             <div className="hidden md:block">
-              <AuthButton />
+              {session ? <HeaderMenu /> : <AuthButton />}
             </div>
             <div className="block md:hidden">
               <HeaderSheet />

@@ -5,14 +5,10 @@ import DashboardLayoutSidebar from "./_components/sidebar";
 import { authOptions } from "@/lib/next-auth";
 
 export default async function DashboardLayout({
-  params: { id: idParam },
   children,
 }: {
-  params: { id: string };
   children: ReactNode;
 }) {
-  const id = idParam ? idParam[0] : null;
-
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -24,7 +20,7 @@ export default async function DashboardLayout({
       <div className="">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="col-span-12 rounded-md border bg-zinc-800/40 lg:col-span-3">
-            <DashboardLayoutSidebar activeId={id} />
+            <DashboardLayoutSidebar />
           </div>
           <div className="col-span-12 flex flex-col space-y-4 lg:col-span-9">
             {children}
