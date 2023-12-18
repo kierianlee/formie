@@ -3,9 +3,11 @@
 import { getTeams } from "@/actions/get-teams";
 import { setFormTeams } from "@/actions/set-form-teams";
 import { Team } from "@/db/schema";
+import { useMounted } from "@/hooks/use-mounted";
 import { isEqual } from "lodash";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { TailSpin } from "react-loader-spinner";
 import Select, {
   MultiValue,
   SingleValue,
@@ -31,6 +33,7 @@ const TeamsForm = ({ formId, defaultTeamIds }: TeamsFormProps) => {
     MultiValue<SelectItem>
   >([]);
   const [optionsLoaded, setOptionsLoaded] = useState(false);
+  const { hasMounted } = useMounted();
 
   const selectStyles: StylesConfig<SelectItem, true> = useMemo(
     () => ({
@@ -150,7 +153,7 @@ const TeamsForm = ({ formId, defaultTeamIds }: TeamsFormProps) => {
     [selectedOptions],
   );
 
-  return (
+  return hasMounted && optionsLoaded ? (
     <Select<SelectItem, true>
       styles={selectStyles}
       theme={selectTheme}
@@ -164,6 +167,16 @@ const TeamsForm = ({ formId, defaultTeamIds }: TeamsFormProps) => {
       onChange={setSelectedOptions}
       placeholder="Select teams to assign this form to"
     />
+  ) : (
+    <div className="flex min-h-[40px] items-center justify-end rounded border bg-background px-4">
+      <TailSpin
+        height="20"
+        width="20"
+        color="#4fa94d"
+        ariaLabel="tail-spin-loading"
+        radius="1"
+      />
+    </div>
   );
 };
 
