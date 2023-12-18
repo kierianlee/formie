@@ -7,7 +7,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const HeaderSheet = () => {
+interface HeaderSheetProps {
+  loggedIn: boolean;
+}
+
+const HeaderSheet = ({ loggedIn }: HeaderSheetProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,18 +21,22 @@ const HeaderSheet = () => {
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col gap-2">
         <span className="mb-4 text-xs uppercase">Menu</span>
-        <Button asChild variant="ghost" className="w-full justify-start">
-          <Link href="/dashboard">
-            <LineChartIcon className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </Link>
-        </Button>
-        <Button asChild variant="ghost" className="w-full justify-start">
-          <Link href="/settings">
-            <SettingsIcon className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </Link>
-        </Button>
+        {loggedIn && (
+          <>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/dashboard">
+                <LineChartIcon className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/settings">
+                <SettingsIcon className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </Link>
+            </Button>
+          </>
+        )}
         <hr className="mb-4 mt-2" />
         <AuthButton onClick={() => setOpen(false)} />
       </SheetContent>

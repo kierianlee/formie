@@ -29,7 +29,7 @@ const Header = async () => {
               {session ? <HeaderMenu /> : <AuthButton />}
             </div>
             <div className="block md:hidden">
-              <HeaderSheet />
+              <HeaderSheet loggedIn={!!session} />
             </div>
           </div>
         </div>
