@@ -2,9 +2,12 @@ import { db } from "@/db";
 import { forms, submissions, users } from "@/db/schema";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
+import { renderAsync } from "@react-email/render";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
+import NewSubmissionEmail from "../../../../emails/new-submission";
+import { env } from "@/env.mjs";
 
 export const runtime = "edge";
 
@@ -75,11 +78,23 @@ export async function POST(
           email: "noreply@formie.dev",
           name: "formie",
         },
-        subject: `New submission for ${form.name}`,
+        subject: `New submission - ${form.name}`,
         content: [
           {
             type: "text/plain",
-            value: `New submission for ${form.name}. Check it out at https://formie.dev.`,
+            value: `New submission for ${form.name}. View at https://formie.dev/dashboard/${form.id}.`,
+          },
+          {
+            type: "text/html",
+            value: await renderAsync(
+              NewSubmissionEmail({
+                formLink: `${env.NEXT_PUBLIC_BASE_URL}/dashboard/${form.id}`,
+                formName: form.name,
+                name: user.name || "",
+                submissionDate: new Date(),
+                submissionFields: entries,
+              }),
+            ),
           },
         ],
       }),

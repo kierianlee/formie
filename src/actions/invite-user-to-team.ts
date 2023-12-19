@@ -5,10 +5,12 @@ import { TEAM_MEMBER_ROLES, teamInvites, teams } from "@/db/schema";
 import { authOptions } from "@/lib/next-auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
+import { renderAsync } from "@react-email/render";
 import { and, eq } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import z from "zod";
+import TeamInviteEmail from "../../emails/team-invite";
 
 const schema = z.object({
   email: z
@@ -115,6 +117,16 @@ export async function inviteUserToTeam(teamId: string, formData: FormData) {
           {
             type: "text/plain",
             value: `You have been invited to join team ${team.name} by ${user.user.name}. Head over to https://formie.dev to accept your invitation.`,
+          },
+          {
+            type: "text/html",
+            value: await renderAsync(
+              TeamInviteEmail({
+                inviteLink: `https://formie.dev/`,
+                teamName: team.name,
+                inviterName: user.user.name || "",
+              }),
+            ),
           },
         ],
       }),
