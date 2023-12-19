@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { cn } from "@/lib/utils";
+import { Code } from "bright";
 
 interface FormValues {
   email: string;
@@ -28,13 +30,22 @@ const MockForm = () => {
   });
 
   const handleSubmission = (values: FormValues) => {
-    setSubmissions((prev) => [...prev, { date: new Date(), fields: values }]);
+    setSubmissions(prev => [...prev, { date: new Date(), fields: values }]);
     form.reset();
   };
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       <div>
+        <div className="mb-6 flex-1">
+          <h3 className={"text-xl font-bold"}>
+            1. Create a formie endpoint and use it with your form.
+          </h3>
+          <p className="mt-1 text-sm text-gray-300">
+            Sign in to formie and create a form with one click, then integrate
+            formie into your form with one line of code.
+          </p>
+        </div>
         <div className="rounded-md border bg-zinc-800/40 p-6">
           <form
             className="flex flex-col space-y-4"
@@ -65,25 +76,36 @@ const MockForm = () => {
         </div>
       </div>
 
-      <div
-        className="rounded-md border bg-zinc-800/40 p-6"
-        ref={submissionAutoAnimateParentRef}
-      >
-        {submissions.length ? (
-          submissions.map((s, i) => (
-            <MockFormSubmission key={i} date={s.date} fields={s.fields} />
-          ))
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center text-center">
-            <CirclePulse className="mb-4 bg-primary/50" />
-            <div>
-              <div className="mb-2">No submissions yet.</div>
-              <div className="text-sm text-muted-foreground">
-                Submit the form to see how submissions look like.
+      <div>
+        <div className="mb-6 flex-1">
+          <h3 className={"text-xl font-bold"}>
+            2. Receive submissions in your {`form's`} inbox and email.
+          </h3>
+          <p className="mt-1 text-sm text-gray-300">
+            On top of receiving submissions in your inbox, you will also receive
+            email notifications.
+          </p>
+        </div>
+        <div
+          className="rounded-md border bg-zinc-800/40 p-6"
+          ref={submissionAutoAnimateParentRef}
+        >
+          {submissions.length ? (
+            submissions.map((s, i) => (
+              <MockFormSubmission key={i} date={s.date} fields={s.fields} />
+            ))
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center text-center">
+              <CirclePulse className="mb-4 bg-primary/50" />
+              <div>
+                <div className="mb-2">No submissions yet.</div>
+                <div className="text-sm text-muted-foreground">
+                  Submit the form to see how submissions look like.
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

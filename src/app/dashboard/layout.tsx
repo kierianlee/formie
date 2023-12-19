@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl py-10">
+    <div className="mx-auto w-full max-w-6xl px-6 py-10">
       <div className="">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="col-span-12 rounded-md border bg-zinc-800/40 lg:col-span-3">

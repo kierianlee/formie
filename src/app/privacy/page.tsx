@@ -1,6 +1,6 @@
 const PrivacyPage = () => {
   return (
-    <div className="mx-auto w-full max-w-6xl py-10 [&_h2]:text-xl [&_h2]:underline [&_h3]:text-lg [&_h3]:underline [&_h4]:font-semibold [&_li]:ml-6 [&_li]:list-disc [&_li]:text-sm [&_p]:text-sm [&_strong]:text-sm">
+    <div className="mx-auto w-full max-w-6xl px-6 py-10 [&_h2]:text-xl [&_h2]:underline [&_h3]:text-lg [&_h3]:underline [&_h4]:font-semibold [&_li]:ml-6 [&_li]:list-disc [&_li]:text-sm [&_p]:text-sm [&_strong]:text-sm">
       <h1 className="text-2xl font-semibold">Privacy Policy</h1>
       <span className="text-sm">Last updated: December 14, 2023</span>
       <hr className="my-3" />

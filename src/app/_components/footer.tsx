@@ -4,10 +4,9 @@ const Footer = () => {
   return (
     <>
       <hr />
-      <footer className="px-6 py-6">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="flex flex-col gap-2 lg:flex-row lg:justify-between">
-            <div />
+      <footer className="py-6">
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <div className="flex flex-col justify-center gap-2">
             <div className="items-center text-center text-sm text-muted-foreground">
               Created with ❤️ by{" "}
               <Link

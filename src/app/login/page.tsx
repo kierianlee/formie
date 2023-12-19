@@ -14,7 +14,7 @@ const LoginPage = async () => {
   const googleCredentialsFound = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 items-center py-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 items-center py-10 px-6">
       <div className="mx-auto flex w-full max-w-md flex-col gap-2 rounded-md bg-zinc-800 p-4">
         {gitHubCredentialsFound && (
           <SignInButton

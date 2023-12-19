@@ -10,8 +10,8 @@ const Header = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <header className="px-6 pt-10">
-      <div className="mx-auto w-full max-w-6xl">
+    <header className="pt-10">
+      <div className="mx-auto w-full max-w-6xl px-6">
         <div className="flex justify-between gap-4">
           <Link href="/">
             <Logo className="w-32" />
