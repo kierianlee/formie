@@ -24,6 +24,7 @@ import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
 const columnHelper = createColumnHelper<{
+  id: string;
   name: string;
   email: string;
   role: (typeof TEAM_MEMBER_ROLES)[keyof typeof TEAM_MEMBER_ROLES] | "INVITED";
@@ -31,6 +32,7 @@ const columnHelper = createColumnHelper<{
 
 interface TeamMembersTableProps {
   data: {
+    id: string;
     name: string;
     email: string;
     role:
@@ -120,7 +122,7 @@ function TeamMembersTable({ data, teamId, isAdmin }: TeamMembersTableProps) {
                     try {
                       const formData = new FormData();
 
-                      formData.append("email", row.original.email);
+                      formData.append("memberId", row.original.id);
 
                       await deleteTeamMemberWithId(formData);
                       toast.success("Team member deleted");

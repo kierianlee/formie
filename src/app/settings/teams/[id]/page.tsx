@@ -79,11 +79,13 @@ const TeamsPage = async ({ params: { id } }: { params: { id: string } }) => {
           data={
             [
               ...team.members.map(item => ({
+                id: item.id,
                 name: item.user.name || "",
                 role: item.role as (typeof TEAM_MEMBER_ROLES)[keyof typeof TEAM_MEMBER_ROLES],
                 email: item.user.email || "",
               })),
               ...invites.map(item => ({
+                id: item.id,
                 name: item.email,
                 role: "INVITED" as const,
                 email: item.email,

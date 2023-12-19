@@ -50,8 +50,8 @@ export async function deleteTeamMember(teamId: string, formData: FormData) {
     throw new Error("Team not found");
   }
 
-  const user = team.members.find(m => m.user.email === session.user.email);
-  const member = team.members.find(m => m.user.email === formData.get("email"));
+  const user = team.members.find(m => m.user.id === session.user.id);
+  const member = team.members.find(m => m.user.id === formData.get("memberId"));
 
   if (!user) {
     throw new Error("You are not a member of this team");
