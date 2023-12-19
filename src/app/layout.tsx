@@ -6,6 +6,7 @@ import NextAuthProvider from "@/components/next-auth-provider";
 import Header from "./_components/header";
 import Footer from "./_components/footer";
 import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 
 import "@/app/globals.css";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
+        <NextTopLoader color="hsl(131 38% 74%)" />
         <NextAuthProvider>
           <ThemeProvider
             attribute="class"

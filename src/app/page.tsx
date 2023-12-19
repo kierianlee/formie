@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="mx-auto w-full max-w-6xl py-10">
       <div>
-        <h1 className="mb-2 text-3xl lg:text-5xl font-medium">
+        <h1 className="mb-2 text-3xl font-medium lg:text-5xl">
           Instant forms with zero setup
         </h1>
         <span className="mb-4 text-muted-foreground">
@@ -90,7 +90,7 @@ export default async function Home() {
           </TabsContent>
           <TabsContent value="angular">
             <Code lang="tsx" theme="nord">
-              {`<form action="https://formie.dev/{form_id}" method="post">
+              {`<form ngNoForm action="https://formie.dev/{form_id}" method="post">
   <input name="Email" id="email" type="email">
   <textarea name="Message" id="message">
   <button type="submit">Submit</button>
