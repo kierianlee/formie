@@ -6,12 +6,12 @@ import NextAuthProvider from "@/components/next-auth-provider";
 import Header from "./_components/header";
 import Footer from "./_components/footer";
 import { Toaster } from "react-hot-toast";
-import NextTopLoader from "nextjs-toploader";
 import { Suspense } from "react";
 import { PHProvider, PostHogPageview } from "./posthog";
 
 import "@/app/globals.css";
 import { env } from "@/env.mjs";
+import NProgressProvider from "./nprogress";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -69,22 +69,25 @@ export default function RootLayout({
             fontSans.variable,
           )}
         >
-          <NextTopLoader color="hsl(131 38% 74%)" />
-          <NextAuthProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              disableTransitionOnChange
-            >
-              <Header />
-              <main className="flex flex-1 flex-col">{children}</main>
-              <Footer />
+          <NProgressProvider>
+            <NextAuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                disableTransitionOnChange
+              >
+                <Header />
+                <main className="flex flex-1 flex-col">{children}</main>
+                <Footer />
 
-              <Toaster
-                toastOptions={{ className: "text-sm !bg-zinc-800 !text-white" }}
-              />
-            </ThemeProvider>
-          </NextAuthProvider>
+                <Toaster
+                  toastOptions={{
+                    className: "text-sm !bg-zinc-800 !text-white",
+                  }}
+                />
+              </ThemeProvider>
+            </NextAuthProvider>
+          </NProgressProvider>
         </body>
       </PHProvider>
     </html>

@@ -56,8 +56,8 @@ const SidebarItem = ({ form }: SidebarItemProps) => {
               activeId === form.id ? "opacity-70" : "opacity-0",
             )}
             onClick={e => {
-              e.preventDefault();
               e.stopPropagation();
+              e.preventDefault();
 
               setEditable(true);
             }}
