@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -15,9 +15,37 @@ const fontSans = Inter({
   variable: "--font-sans",
 });
 
+const title = "formie";
+const description = "Zero setup form backend.";
+
 export const metadata: Metadata = {
-  title: "formie",
-  description: "Forms without the hassle.",
+  title,
+  description,
+  manifest: "https://formie.dev/manifest.json",
+  openGraph: {
+    title,
+    description,
+    url: "https://formie.dev",
+    type: "website",
+    images: ["https://formie.dev/og.jpg"],
+  },
+  icons: {
+    icon: "https://formie.dev/logo-small.svg",
+    shortcut: "https://formie.dev/favicon.ico",
+    apple: "https://formie.dev/logo-small.png",
+  },
+  appleWebApp: {
+    title,
+    statusBarStyle: "default",
+    startupImage: ["https://formie.dev/logo-small.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: false,
+  themeColor: "#75bd82",
 };
 
 export default function RootLayout({
