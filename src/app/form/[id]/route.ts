@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { forms, submissions, users } from "@/db/schema";
+import { User, forms, submissions, users } from "@/db/schema";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
 import { renderAsync } from "@react-email/render";
@@ -22,6 +22,21 @@ export async function POST(
   const entries = Object.fromEntries(formData.entries());
   const form = await db.query.forms.findFirst({
     where: eq(forms.id, id),
+    with: {
+      formsToTeams: {
+        with: {
+          team: {
+            with: {
+              members: {
+                with: {
+                  user: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
   if (!form) {
     return NextResponse.json({ error: "Form not found" }, { status: 400 });
@@ -50,6 +65,20 @@ export async function POST(
     }
   }
 
+  const teamMembersToSendTo: User[] = [];
+
+  for (const { team } of form.formsToTeams) {
+    for (const member of team.members) {
+      if (
+        !teamMembersToSendTo.find(
+          m => m.id === member.user.id && m.id !== user.id,
+        )
+      ) {
+        teamMembersToSendTo.push(member.user);
+      }
+    }
+  }
+
   try {
     await db.insert(submissions).values({
       id: crypto.randomUUID(),
@@ -71,6 +100,10 @@ export async function POST(
                 email: user.email,
                 name: user.name,
               },
+              ...teamMembersToSendTo.map(user => ({
+                email: user.email,
+                name: user.name,
+              })),
             ],
           },
         ],
