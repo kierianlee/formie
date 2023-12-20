@@ -49,29 +49,33 @@ const SidebarItem = ({ form }: SidebarItemProps) => {
           •
         </div>
         <div className="flex-1">{form.name}</div>
-        {!submitting ? (
-          <button
-            className={cn(
-              "text-xs text-zinc-300 transition-all duration-300 group-hover:opacity-100",
-              activeId === form.id ? "opacity-70" : "opacity-0",
-            )}
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
+        {activeId === form.id && (
+          <>
+            {!submitting ? (
+              <button
+                className={cn(
+                  "text-xs text-zinc-300 transition-all duration-300 group-hover:opacity-100",
+                  activeId === form.id ? "opacity-70" : "opacity-0",
+                )}
+                onClick={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
 
-              setEditable(true);
-            }}
-          >
-            edit
-          </button>
-        ) : (
-          <TailSpin
-            height="20"
-            width="20"
-            color="#4fa94d"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-          />
+                  setEditable(true);
+                }}
+              >
+                edit
+              </button>
+            ) : (
+              <TailSpin
+                height="20"
+                width="20"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+              />
+            )}
+          </>
         )}
       </span>
     </Link>
