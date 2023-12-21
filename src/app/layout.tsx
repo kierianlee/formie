@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import NextAuthProvider from "@/components/next-auth-provider";
-import Header from "./_components/header";
-import Footer from "./_components/footer";
+import Header from "./(with-layout)/_components/header";
+import Footer from "./(with-layout)/_components/footer";
 import { Toaster } from "react-hot-toast";
 import { Suspense } from "react";
 import { PHProvider, PostHogPageview } from "./posthog";
@@ -76,9 +76,7 @@ export default function RootLayout({
                 defaultTheme="dark"
                 disableTransitionOnChange
               >
-                <Header />
-                <main className="flex flex-1 flex-col">{children}</main>
-                <Footer />
+                {children}
 
                 <Toaster
                   toastOptions={{

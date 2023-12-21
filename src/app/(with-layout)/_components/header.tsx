@@ -1,4 +1,4 @@
-import AuthButton from "@/app/_components/auth-button";
+import AuthButton from "@/app/(with-layout)/_components/auth-button";
 import Logo from "@/components/ui/logo";
 import Link from "next/link";
 import HeaderSheet from "./header-sheet";
