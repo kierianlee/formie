@@ -1,6 +1,8 @@
 import { CreateFormButton } from "../[id]/_components/create-form-button";
 import { db } from "@/db";
 import {
+  Form,
+  FormsToTeams,
   forms as formsTable,
   formsToTeams as formsToTeamsTable,
   teamMembers as teamMembersTable,
@@ -20,22 +22,32 @@ const DashboardLayoutSidebar = async () => {
   const teams = await db.query.teamMembers.findMany({
     where: eq(teamMembersTable.userId, session.user.id),
   });
-  const teamForms = await db.query.formsToTeams.findMany({
-    where: inArray(
-      formsToTeamsTable.teamId,
-      teams.map(t => t.teamId),
-    ),
-    with: {
-      form: true,
-    },
-  });
+
+  let teamForms: (FormsToTeams & { form: Form })[] = [];
+
+  if (!!teams.length) {
+    teamForms = await db.query.formsToTeams.findMany({
+      where: inArray(
+        formsToTeamsTable.teamId,
+        teams.map(t => t.teamId),
+      ),
+      with: {
+        form: true,
+      },
+    });
+  }
+
   const ownForms = await db.query.forms.findMany({
     where: and(
       eq(formsTable.userId, session.user.id),
-      notInArray(
-        formsTable.id,
-        teams.map(t => t.teamId),
-      ),
+      ...(!!teams.length
+        ? [
+            notInArray(
+              formsTable.id,
+              teams.map(t => t.teamId),
+            ),
+          ]
+        : []),
     ),
   });
   const unfilteredForms = [...teamForms.map(item => item.form), ...ownForms];

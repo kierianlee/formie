@@ -24,6 +24,8 @@ export const formsToTeams = pgTable(
     pk: primaryKey({ columns: [t.formId, t.teamId] }),
   }),
 );
+export type FormsToTeams = typeof formsToTeams.$inferSelect;
+
 export const formsToTeamsRelations = relations(formsToTeams, ({ one }) => ({
   form: one(forms, {
     fields: [formsToTeams.formId],
@@ -46,6 +48,8 @@ export const forms = pgTable("form", {
   name: text("name").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
+export type Form = typeof forms.$inferSelect;
+
 export const formsRelations = relations(forms, ({ many }) => ({
   formsToTeams: many(formsToTeams),
 }));
