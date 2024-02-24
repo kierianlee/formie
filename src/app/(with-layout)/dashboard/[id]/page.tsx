@@ -29,7 +29,7 @@ export default async function Dashboard({
 }) {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return <></>;
+    return redirect("/");
   }
 
   const page = parseInt(searchParams.page?.toString() || "1");
@@ -62,23 +62,22 @@ export default async function Dashboard({
     redirect("/dashboard");
   }
 
+  const where = and(
+    eq(submissionsTable.formId, form.id),
+    ...(filterField && filterType && filterValue
+      ? [
+          filterType === QueryType.CONTAINS
+            ? sql`fields ->> ${filterField} ilike ${`%${filterValue}%`}`
+            : sql`fields ->> ${filterField} = ${filterValue}`,
+        ]
+      : []),
+  );
   const [submissions, [{ count: submissionsCount }], submissionKeys] =
     await Promise.all([
       db
         .select()
         .from(submissionsTable)
-        .where(
-          and(
-            eq(submissionsTable.formId, form.id),
-            ...(filterField && filterType && filterValue
-              ? [
-                  filterType === QueryType.CONTAINS
-                    ? sql`fields ->> ${filterField} ilike ${`%${filterValue}%`}`
-                    : sql`fields ->> ${filterField} = ${filterValue}`,
-                ]
-              : []),
-          ),
-        )
+        .where(where)
         .orderBy(
           sortField === "Date"
             ? sortDir === "asc"
@@ -90,7 +89,7 @@ export default async function Dashboard({
         )
         .limit(take)
         .offset((page - 1) * take),
-      db.select({ count: count() }).from(submissionsTable),
+      db.select({ count: count() }).from(submissionsTable).where(where),
       db
         .execute(
           sql`
