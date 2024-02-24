@@ -43,13 +43,23 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => {
         <div className="flex flex-1 flex-col">
           <div className="grid grid-cols-2 gap-4">
             {fields.slice(0, 2).map(([key, value]) => (
-              <SubmissionCardField key={key} label={key} value={value} />
+              <SubmissionCardField
+                key={key}
+                label={key}
+                value={value}
+                expanded={isExpanded}
+              />
             ))}
           </div>
           <div {...getCollapseProps()}>
             <div className="mt-4 grid grid-cols-2 gap-4">
               {fields.slice(2).map(([key, value]) => (
-                <SubmissionCardField key={key} label={key} value={value} />
+                <SubmissionCardField
+                  key={key}
+                  label={key}
+                  value={value}
+                  expanded={isExpanded}
+                />
               ))}
             </div>
           </div>
@@ -62,14 +72,23 @@ const SubmissionCard = ({ submission }: SubmissionCardProps) => {
 const SubmissionCardField = ({
   label,
   value,
+  expanded,
 }: {
   label: string;
   value: any;
+  expanded: boolean;
 }) => {
   return (
     <div>
       <div className="mr-3 text-xs text-muted-foreground">{label}:</div>
-      <div className="text-xs">{value}</div>
+      <div
+        className={cn(
+          "text-xs",
+          !expanded && "overflow-hidden text-ellipsis whitespace-nowrap",
+        )}
+      >
+        {value}
+      </div>
     </div>
   );
 };
