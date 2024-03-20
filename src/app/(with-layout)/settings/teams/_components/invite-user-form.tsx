@@ -1,6 +1,5 @@
 "use client";
 
-import { inviteUserToTeam } from "@/actions/invite-user-to-team";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -12,8 +11,6 @@ interface InviteUserFormProps {
 }
 
 const InviteUserForm = ({ teamId }: InviteUserFormProps) => {
-  const inviteUserToTeamWithId = inviteUserToTeam.bind(null, teamId);
-
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -22,17 +19,19 @@ const InviteUserForm = ({ teamId }: InviteUserFormProps) => {
       onSubmit={async e => {
         e.preventDefault();
         setSubmitting(true);
-        try {
-          await inviteUserToTeamWithId(new FormData(e.currentTarget));
-          toast.success("Team member invited");
-          setValue("");
-        } catch (err) {
-          if (err instanceof Error) {
-            toast.error(err.message);
-          } else {
-            toast.error("Couldn't invite team member");
-          }
+
+        const response = await fetch(`/api/teams/invite/${teamId}`, {
+          method: "POST",
+          body: new FormData(e.currentTarget),
+        });
+
+        if (response.status !== 200) {
+          toast.error((await response.json()).error.message);
         }
+
+        toast.success("Team member invited");
+        setValue("");
+
         setSubmitting(false);
       }}
       className="flex items-center gap-4"

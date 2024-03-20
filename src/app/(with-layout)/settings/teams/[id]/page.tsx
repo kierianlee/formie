@@ -16,8 +16,6 @@ import InviteUserForm from "../_components/invite-user-form";
 import DeleteTeamButton from "./_components/delete-team-button";
 import LeaveTeamButton from "./_components/leave-team-button";
 
-export const runtime = "edge";
-
 const TeamsPage = async ({ params: { id } }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
   if (!session) {
