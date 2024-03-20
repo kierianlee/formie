@@ -10,8 +10,6 @@ import {
 } from "@/db/schema";
 import { auth } from "@/auth";
 
-export const runtime = "edge";
-
 const TeamsPage = async () => {
   const session = await auth();
   if (!session) {
