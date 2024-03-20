@@ -6,9 +6,7 @@ import {
   forms as formsTable,
   submissions as submissionsTable,
 } from "@/db/schema";
-import { getServerSession } from "next-auth";
 import RedirectUrlForm from "./_components/redirect-url-form";
-import { authOptions } from "@/lib/next-auth";
 import { DeleteFormButton } from "./_components/delete-form.button";
 import { env } from "@/env.mjs";
 import PaginationNavigation from "@/components/pagination-navigation";
@@ -19,6 +17,7 @@ import { InputType, QueryType } from "@/components/filter/filter-consts";
 import FilterBadge from "./_components/filter-badge";
 import RecaptchaForm from "./_components/recaptcha-form";
 import TeamsForm from "./_components/teams-form";
+import { auth } from "@/auth";
 
 export default async function Dashboard({
   params: { id: idParam },
@@ -27,7 +26,7 @@ export default async function Dashboard({
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     return redirect("/");
   }

@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import SignInButton from "./_components/signin-button";
-import { authOptions } from "@/lib/next-auth";
 import { redirect } from "next/navigation";
 
 const LoginPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) {
     redirect("/dashboard");
@@ -14,7 +13,7 @@ const LoginPage = async () => {
   const googleCredentialsFound = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 items-center py-10 px-6">
+    <div className="mx-auto flex w-full max-w-6xl flex-1 items-center px-6 py-10">
       <div className="mx-auto flex w-full max-w-md flex-col gap-2 rounded-md bg-zinc-800 p-4">
         {gitHubCredentialsFound && (
           <SignInButton

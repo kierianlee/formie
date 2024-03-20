@@ -1,8 +1,6 @@
 import { db } from "@/db";
 import CreateTeamButton from "./_components/create-team-button";
 import TeamsTable from "./_components/table";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/next-auth";
 import { redirect } from "next/navigation";
 import { and, eq, isNull } from "drizzle-orm";
 import {
@@ -10,9 +8,12 @@ import {
   teamInvites as teamInvitesTable,
   teamMembers as teamMembersTable,
 } from "@/db/schema";
+import { auth } from "@/auth";
+
+export const runtime = "edge";
 
 const TeamsPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     redirect("/");
   }

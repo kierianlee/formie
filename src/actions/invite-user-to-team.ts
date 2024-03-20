@@ -1,15 +1,15 @@
+"use server";
+
 import { db } from "@/db";
 import { TEAM_MEMBER_ROLES, teamInvites, teams } from "@/db/schema";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
 import { renderAsync } from "@react-email/render";
 import { and, eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import TeamInviteEmail from "../../../../../../emails/team-invite";
+import { revalidatePath } from "next/cache";
+import z from "zod";
+import TeamInviteEmail from "../../emails/team-invite";
 import { auth } from "@/auth";
-
-export const runtime = "edge";
 
 const schema = z.object({
   email: z
@@ -20,20 +20,13 @@ const schema = z.object({
     .email("Invalid email"),
 });
 
-export async function POST(
-  req: NextRequest,
-  { params: { id: teamId } }: { params: { id: string } },
-) {
+export async function inviteUserToTeam(teamId: string, formData: FormData) {
   await rateLimit((await getIPAddress()) ?? "anonymous");
 
-  const formData = await req.formData();
   const session = await auth();
 
   if (!session) {
-    return NextResponse.json(
-      { error: { message: "Unauthenticated" } },
-      { status: 401 },
-    );
+    throw Error("Unauthenticated");
   }
 
   const validatedFields = schema.safeParse({
@@ -41,15 +34,8 @@ export async function POST(
   });
 
   if (!validatedFields.success) {
-    return NextResponse.json(
-      {
-        error: {
-          message: validatedFields.error
-            .flatten()
-            .fieldErrors.email?.join(", "),
-        },
-      },
-      { status: 400 },
+    throw new Error(
+      validatedFields.error.flatten().fieldErrors.email?.join(", "),
     );
   }
 
@@ -65,26 +51,17 @@ export async function POST(
   });
 
   if (!team) {
-    return NextResponse.json(
-      { error: { message: "Team not found" } },
-      { status: 400 },
-    );
+    throw new Error("Team not found");
   }
 
   const user = team.members.find(m => m.user.email === session.user.email);
 
   if (!user) {
-    return NextResponse.json(
-      { error: { message: "You are not a member of this team" } },
-      { status: 400 },
-    );
+    throw new Error("You are not a member of this team");
   }
 
   if (user.role !== TEAM_MEMBER_ROLES.ADMIN) {
-    return NextResponse.json(
-      { error: { message: "You are not an admin of this team" } },
-      { status: 400 },
-    );
+    throw new Error("You are not an admin of this team");
   }
 
   const existingMember = team.members.find(
@@ -92,10 +69,7 @@ export async function POST(
   );
 
   if (existingMember) {
-    return NextResponse.json(
-      { error: { message: "User is already a member of this team" } },
-      { status: 400 },
-    );
+    throw new Error("User is already a member of this team");
   }
 
   const exisitingInvite = await db.query.teamInvites.findFirst({
@@ -106,21 +80,18 @@ export async function POST(
   });
 
   if (exisitingInvite) {
-    return NextResponse.json(
-      { error: { message: "Email has already been invited" } },
-      { status: 400 },
-    );
+    throw new Error("Email has already been invited");
   }
 
-  try {
-    await db.insert(teamInvites).values({
-      id: crypto.randomUUID(),
-      email: formData.get("email") as string,
-      invitedAt: new Date(),
-      invitedById: session.user.id,
-      teamId,
-    });
+  await db.insert(teamInvites).values({
+    id: crypto.randomUUID(),
+    email: formData.get("email") as string,
+    invitedAt: new Date(),
+    invitedById: session.user.id,
+    teamId,
+  });
 
+  try {
     await fetch("https://api.mailchannels.net/tx/v1/send", {
       method: "POST",
       headers: {
@@ -161,12 +132,10 @@ export async function POST(
     });
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json(
-        { error: { message: error.message } },
-        { status: 400 },
-      );
+      throw new Error(error.message);
     }
   }
 
-  return NextResponse.json(true, { status: 200 });
+  revalidatePath("/settings/teams", "page");
+  revalidatePath("/settings/teams/[id]", "page");
 }

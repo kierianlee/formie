@@ -1,9 +1,8 @@
-import { authOptions } from "@/lib/next-auth";
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 const SettingsPage = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     redirect("/");

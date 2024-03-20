@@ -7,13 +7,12 @@ import {
   formsToTeams as formsToTeamsTable,
   teamMembers as teamMembersTable,
 } from "@/db/schema";
-import { getServerSession } from "next-auth";
 import { and, eq, inArray, notInArray } from "drizzle-orm";
 import SidebarItem from "./sidebar-item";
-import { authOptions } from "@/lib/next-auth";
+import { auth } from "@/auth";
 
 const DashboardLayoutSidebar = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     return <></>;

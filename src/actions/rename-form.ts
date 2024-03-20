@@ -1,12 +1,11 @@
 "use server";
 
+import { auth } from "@/auth";
 import { db } from "@/db";
 import { forms } from "@/db/schema";
-import { authOptions } from "@/lib/next-auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
 import { and, eq } from "drizzle-orm";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
@@ -21,7 +20,7 @@ const schema = z.object({
 export async function renameForm(formId: string, formData: FormData) {
   await rateLimit((await getIPAddress()) ?? "anonymous");
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     throw Error("Unauthenticated");

@@ -3,11 +3,10 @@ import Logo from "@/components/ui/logo";
 import Link from "next/link";
 import HeaderSheet from "./header-sheet";
 import HeaderMenu from "./header-menu";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/next-auth";
+import { auth } from "@/auth";
 
 const Header = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   return (
     <header className="pt-10">

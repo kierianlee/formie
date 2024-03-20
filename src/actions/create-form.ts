@@ -1,13 +1,12 @@
 "use server";
 
 import { db } from "@/db";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { forms, forms as formsTable } from "@/db/schema";
-import { authOptions } from "@/lib/next-auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
 import { count, eq } from "drizzle-orm";
+import { auth } from "@/auth";
 
 // To rework
 const MAXIMUM_USER_FORM_COUNT = parseInt(
@@ -17,7 +16,7 @@ const MAXIMUM_USER_FORM_COUNT = parseInt(
 export async function createForm() {
   await rateLimit((await getIPAddress()) ?? "anonymous");
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     throw Error("Unauthenticated");

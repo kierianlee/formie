@@ -1,9 +1,7 @@
 import { Code } from "bright";
 import MockForm from "./_components/mock-form";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { authOptions } from "@/lib/next-auth";
 import {
   angularSnippet,
   htmlSnippet,
@@ -16,11 +14,12 @@ import Logo from "@/components/ui/logo";
 import { Shantell_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 const handwrittenFont = Shantell_Sans({ weight: ["700"], subsets: ["latin"] });
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session) {
     redirect("/dashboard");

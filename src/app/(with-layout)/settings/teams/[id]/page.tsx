@@ -1,6 +1,4 @@
 import { db } from "@/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/next-auth";
 import { redirect } from "next/navigation";
 import { and, eq, isNull } from "drizzle-orm";
 import {
@@ -15,9 +13,10 @@ import Link from "next/link";
 import InviteUserForm from "../_components/invite-user-form";
 import DeleteTeamButton from "./_components/delete-team-button";
 import LeaveTeamButton from "./_components/leave-team-button";
+import { auth } from "@/auth";
 
 const TeamsPage = async ({ params: { id } }: { params: { id: string } }) => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session) {
     redirect("/");
   }

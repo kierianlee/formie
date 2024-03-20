@@ -7,15 +7,14 @@ import {
   forms as formsTable,
 } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/next-auth";
 import { rateLimit } from "@/lib/rate-limit";
 import { getIPAddress } from "@/lib/server-actions";
+import { auth } from "@/auth";
 
 export async function deleteSubmission(submissionId: string) {
   await rateLimit((await getIPAddress()) ?? "anonymous");
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     throw Error("Unauthenticated");
