@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { TailSpin } from "react-loader-spinner";
@@ -11,6 +12,8 @@ interface InviteUserFormProps {
 }
 
 const InviteUserForm = ({ teamId }: InviteUserFormProps) => {
+  const router = useRouter();
+
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -33,6 +36,8 @@ const InviteUserForm = ({ teamId }: InviteUserFormProps) => {
         setValue("");
 
         setSubmitting(false);
+
+        router.refresh();
       }}
       className="flex items-center gap-4"
     >
