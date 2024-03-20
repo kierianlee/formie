@@ -21,6 +21,8 @@ const schema = z.object({
     .email("Invalid email"),
 });
 
+export const runtime = "edge";
+
 export async function inviteUserToTeam(teamId: string, formData: FormData) {
   await rateLimit((await getIPAddress()) ?? "anonymous");
 
