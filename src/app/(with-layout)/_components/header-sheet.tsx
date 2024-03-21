@@ -24,13 +24,13 @@ const HeaderSheet = ({ loggedIn }: HeaderSheetProps) => {
         {loggedIn && (
           <>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/dashboard">
+              <Link href="/dashboard" onClick={() => setOpen(false)}>
                 <LineChartIcon className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
               </Link>
             </Button>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/settings">
+              <Link href="/settings" onClick={() => setOpen(false)}>
                 <SettingsIcon className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </Link>
