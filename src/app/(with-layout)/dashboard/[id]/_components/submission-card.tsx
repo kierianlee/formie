@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { submissions } from "@/db/schema";
 import DeleteFormButton from "./delete-submission-button";
+import { startCase } from "lodash";
 
 interface SubmissionCardProps {
   submission: typeof submissions.$inferSelect;
@@ -80,7 +81,9 @@ const SubmissionCardField = ({
 }) => {
   return (
     <div>
-      <div className="mr-3 text-xs text-muted-foreground">{label}:</div>
+      <div className="mr-3 text-xs text-muted-foreground">
+        {startCase(label)}:
+      </div>
       <div
         className={cn(
           "text-xs",
