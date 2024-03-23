@@ -13,6 +13,7 @@ import {
   Section,
   Tailwind,
   Text,
+  Hr,
 } from "@react-email/components";
 import { startCase } from "lodash";
 import { Fragment } from "react";
@@ -37,6 +38,8 @@ export const NewSubmissionEmail = ({
     fullName: "John Doe",
     email: "john@doe.com",
     message: "Hello world!",
+    longMessage:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies ultricies.",
   },
   formLink = `https://formie.dev/dashboard/1`,
 }: NewSubmissionEmailProps) => {
@@ -78,16 +81,16 @@ export const NewSubmissionEmail = ({
                 }).format(submissionDate)}
                 :
               </Text>
+              <Hr />
               <Section className="text-[14px] leading-[24px] text-black">
                 {Object.entries(submissionFields).map(([key, value], index) => (
-                  <Row key={index} className="w-full">
-                    <Column align="left" className="w-1/2">
+                  <Fragment key={index}>
+                    <Text className="m-0 font-semibold">
                       {startCase(key)}:{" "}
-                    </Column>
-                    <Column align="left" className="w-1/2">
-                      {value}
-                    </Column>
-                  </Row>
+                    </Text>
+                    <Text className="m-0">{value}</Text>
+                    <Hr />
+                  </Fragment>
                 ))}
               </Section>
               <Section className="mb-[32px] mt-[32px] text-center">
