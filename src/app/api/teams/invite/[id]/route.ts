@@ -9,8 +9,6 @@ import { z } from "zod";
 import TeamInviteEmail from "../../../../../../emails/team-invite";
 import { auth } from "@/auth";
 
-export const runtime = "edge";
-
 const schema = z.object({
   email: z
     .string({
