@@ -23,7 +23,7 @@ const DashboardFilterBadge = ({
   return (
     <FilterBadge
       onRemove={() => {
-        const clonedSearchParams = new URLSearchParams(searchParams);
+        const clonedSearchParams = new URLSearchParams(searchParams.toString());
         clonedSearchParams.delete("filterField");
         clonedSearchParams.delete("filterValue");
         clonedSearchParams.delete("filterType");
