@@ -18,7 +18,7 @@ const FilterMenu = ({ options }: FilterMenuProps) => {
   return (
     <Filter.Menu
       onSubmit={val => {
-        const clonedSearchParams = new URLSearchParams(searchParams);
+        const clonedSearchParams = new URLSearchParams(searchParams.toString());
         clonedSearchParams.set("filterField", val.accessor);
         clonedSearchParams.set(
           "filterValue",

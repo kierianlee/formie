@@ -74,7 +74,7 @@ const CustomDropdownMenuItem = ({
     >
       <Link
         href={(() => {
-          const clonedSearchParams = new URLSearchParams(searchParams);
+          const clonedSearchParams = new URLSearchParams(searchParams.toString());
           clonedSearchParams.set("sortField", option);
           clonedSearchParams.set(
             "sortDir",

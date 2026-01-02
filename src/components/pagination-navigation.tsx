@@ -30,7 +30,7 @@ const PaginationNavigation = ({
       <Pagination.PrevButton
         className="relative inline-flex items-center rounded-l-md border px-2 py-2 text-sm text-zinc-400 hover:bg-zinc-600 hover:text-white"
         as={page => {
-          const clonedSearchParams = new URLSearchParams(searchParams);
+          const clonedSearchParams = new URLSearchParams(searchParams.toString());
           clonedSearchParams.set("page", `${page}`);
 
           return <Link href={`${pathname}?${clonedSearchParams.toString()}`} />;
@@ -41,7 +41,7 @@ const PaginationNavigation = ({
 
       <Pagination.PageButton
         as={page => {
-          const clonedSearchParams = new URLSearchParams(searchParams);
+          const clonedSearchParams = new URLSearchParams(searchParams.toString());
           clonedSearchParams.set("page", `${page}`);
 
           return (
@@ -59,7 +59,7 @@ const PaginationNavigation = ({
       <Pagination.NextButton
         className="relative inline-flex items-center rounded-r-md border px-2 py-2 text-sm text-gray-400 hover:bg-zinc-600 hover:text-white"
         as={page => {
-          const clonedSearchParams = new URLSearchParams(searchParams);
+          const clonedSearchParams = new URLSearchParams(searchParams.toString());
           clonedSearchParams.set("page", `${page}`);
 
           return <Link href={`${pathname}?${clonedSearchParams.toString()}`} />;
